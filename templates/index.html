@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0f18">
+  <title>PRIMA-15 Adaptive · Render Wave Lab</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="PRIMA-15 inicio">
+        <span class="brand-mark"><span></span><span></span><span></span></span>
+        <span><strong>PRIMA<span class="brand-dash">·</span>15</strong><small>ADAPTIVE WAVE LAB · V4.5.0</small></span>
+      </a>
+      <div class="topbar-right">
+        <div class="connection"><i id="connectionDot" class="dot"></i><span id="connectionText">CONECTANDO</span></div>
+        <button id="notifyBtn" class="quiet-button" type="button"><span class="bell">🔔</span> Activar alertas</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="market-strip panel">
+        <div class="asset-block">
+          <div class="coin-icon">R</div>
+          <div><div class="eyebrow">MERCADO SPOT</div><h1>{{ symbol }} <span class="interval-tag">15 MIN</span></h1></div>
+        </div>
+        <div class="price-block">
+          <div class="eyebrow">PRECIO ACTUAL · USDT</div>
+          <div class="market-price" id="price">—</div>
+          <div class="price-change" id="change24h">Esperando cotización</div>
+        </div>
+        <div class="market-stat"><span>Máximo 24 h</span><strong id="high24h">—</strong></div>
+        <div class="market-stat"><span>Mínimo 24 h</span><strong id="low24h">—</strong></div>
+        <div class="market-stat"><span>Velas guardadas</span><strong id="candleCount">—</strong></div>
+      </section>
+
+      <section class="signal-layout">
+        <div class="signal-main panel">
+          <div class="section-topline"><span class="eyebrow">LECTURA DEL CICLO ACTUAL</span><span class="live-label"><i></i> MONITOREO</span></div>
+          <div class="signal-heading">
+            <div>
+              <div id="signalKicker" class="signal-kicker">ANALIZANDO ESTRUCTURA</div>
+              <div id="signalValue" class="signal-value neutral">ESPERAR</div>
+            </div>
+            <div class="score-ring" id="scoreRing"><div><strong id="dominantScore">—</strong><span>FUERZA DE<br>CONFLUENCIA</span></div></div>
+          </div>
+          <p class="phase-text" id="phaseText">El motor está reuniendo datos y buscando coincidencias entre los extremos.</p>
+          <div class="score-pair">
+            <div class="score-row">
+              <div class="score-label"><span><b class="long-dot"></b> Presión de piso · LONG</span><strong id="longScore">—</strong></div>
+              <div class="bar-track"><div id="longBar" class="bar-fill long-fill"></div></div>
+            </div>
+            <div class="score-row">
+              <div class="score-label"><span><b class="short-dot"></b> Presión de techo · SHORT</span><strong id="shortScore">—</strong></div>
+              <div class="bar-track"><div id="shortBar" class="bar-fill short-fill"></div></div>
+            </div>
+          </div>
+          <div class="signal-footer">
+            <div><span>Umbral adaptativo</span><strong id="threshold">68 / 100</strong></div>
+            <div><span>RSI (14)</span><strong id="rsi">—</strong></div>
+            <div><span>Rango ATR</span><strong id="atr">—</strong></div>
+          </div>
+        </div>
+
+        <aside class="evidence-card panel">
+          <div class="section-topline"><span class="eyebrow">POR QUÉ LO CREE</span><span class="tiny-code">EVIDENCE / 01</span></div>
+          <div id="reasons" class="reason-list"><div class="reason-empty">Aún no hay evidencia suficiente.</div></div>
+          <div class="evidence-foot"><span class="pulse-ring"></span><span id="candidateText">Buscando un extremo temporal y de precio.</span></div>
+        </aside>
+      </section>
+
+      <section class="panel ai-panel">
+        <div class="panel-heading compact-heading">
+          <div><span class="eyebrow">SEGUNDA CAPA DE EVALUACIÓN</span><h2>OpenRouter · Comité de modelos</h2></div>
+          <span id="aiStatus" class="ai-status">IA SIN CONFIGURAR</span>
+        </div>
+        <div class="ai-grid">
+          <div class="ai-main-readout">
+            <span class="eyebrow">LECTURA AGREGADA</span>
+            <strong id="aiDecision" class="ai-decision">WAIT</strong>
+            <span id="aiConfidence" class="ai-confidence">Convicción: —</span>
+          </div>
+          <div class="ai-detail">
+            <span class="eyebrow">CONSENSO</span>
+            <strong id="aiConsensus">—</strong>
+            <span id="aiVotes">Sin respuestas de modelos</span>
+          </div>
+          <div class="ai-detail">
+            <span class="eyebrow">MODELOS CONSULTADOS</span>
+            <strong id="aiModels">—</strong>
+            <span id="aiUpdated">Última evaluación: —</span>
+          </div>
+        </div>
+        <div id="aiSummary" class="ai-summary">Configura OPENROUTER_API_KEY en .env para activar esta capa.</div>
+        <div class="ai-risk"><b>Riesgo / condición:</b> <span id="aiRisk">Las recomendaciones de IA no son probabilidades calibradas ni órdenes de trading.</span></div>
+        <div id="committeeCycle" class="ai-context-audit">Comité programado cada 5 minutos · esperando primera evaluación.</div>
+        <div id="aiVotesList" class="ai-votes-list"></div>
+        <div id="aiContextAudit" class="ai-context-audit">La cobertura del contexto LLM aparecerá después de la primera evaluación.</div>
+      </section>
+
+      <section class="panel fast-entry-panel">
+        <div class="panel-heading compact-heading">
+          <div><span class="eyebrow">DIAGNÓSTICO DE ENTRADA DE HORIZONTE CORTO</span><h2>TP-first · Microestructura · BTC/ETH</h2></div>
+          <span id="fastEntryStatus" class="ai-status">REUNIENDO DATOS 1M</span>
+        </div>
+        <div class="fast-entry-summary">
+          <strong id="fastEntryCandidate">SIN CANDIDATO</strong>
+          <span id="fastEntrySummary">Esperando histórico 1m, order book y flujo de operaciones.</span>
+        </div>
+        <div class="fast-entry-grid">
+          <article class="fast-entry-side" id="fastLongCard">
+            <div class="fast-entry-title"><b class="side-long">LONG</b><span id="fastLongGate" class="fast-gate">BLOQUEADO</span></div>
+            <div class="fast-entry-metrics" id="fastLongMetrics">—</div>
+            <ul id="fastLongBlockers"><li>Esperando datos.</li></ul>
+          </article>
+          <article class="fast-entry-side" id="fastShortCard">
+            <div class="fast-entry-title"><b class="side-short">SHORT</b><span id="fastShortGate" class="fast-gate">BLOQUEADO</span></div>
+            <div class="fast-entry-metrics" id="fastShortMetrics">—</div>
+            <ul id="fastShortBlockers"><li>Esperando datos.</li></ul>
+          </article>
+        </div>
+        <div class="fast-market-foot" id="fastMarketFoot">La estimación TP-first procede de analogías históricas separadas temporalmente; no es una probabilidad garantizada.</div>
+      </section>
+
+      <section class="panel portfolio-panel">
+        <div class="panel-heading compact-heading">
+          <div><span class="eyebrow">CARTERA 100% SIMULADA</span><h2>Gestión de posiciones por el comité LLM</h2></div>
+          <span id="portfolioStatus" class="ai-status">ESPERANDO DECISIÓN</span>
+        </div>
+        <div class="wallet-grid">
+          <div class="wallet-metric"><span>SALDO DISPONIBLE</span><strong id="walletBalance">100.000%</strong><small>Índice inicial = 100%</small></div>
+          <div class="wallet-metric"><span>EQUITY TOTAL</span><strong id="walletEquity">100.000%</strong><small>Incluye P&amp;L no realizado</small></div>
+          <div class="wallet-metric"><span>RENTABILIDAD TOTAL</span><strong id="walletReturn">+0.000%</strong><small>Desde el inicio</small></div>
+          <div class="wallet-metric"><span>COSTES DE APERTURA</span><strong id="walletFees">0.000%</strong><small>0.035% por apertura · 0% al cerrar</small></div>
+        </div>
+        <div class="position-grid">
+          <div class="position-current">
+            <span class="eyebrow">POSICIÓN ACTUAL</span>
+            <strong id="positionSide" class="position-side neutral">SIN POSICIÓN</strong>
+            <span id="positionOpened" class="position-sub">No hay una operación simulada abierta.</span>
+          </div>
+          <div class="position-stat"><span>RETORNO DEL PRECIO</span><strong id="positionReturn">—</strong></div>
+          <div class="position-stat"><span>P&amp;L SOBRE WALLET</span><strong id="positionWalletPnl">—</strong></div>
+          <div class="position-stat"><span>OPERACIONES CERRADAS</span><strong id="positionTrades">0</strong></div>
+          <div class="position-stat"><span>ACIERTOS CERRADOS</span><strong id="positionWinRate">—</strong></div>
+        </div>
+        <div id="positionEvent" class="position-event">Las decisiones LLM válidas abrirán, mantendrán o invertirán una única posición simulada. Sin quórum, la posición se conserva.</div>
+        <div class="position-history-wrap">
+          <div class="eyebrow">HISTORIAL DE POSICIONES CERRADAS · TODO EN PORCENTAJE</div>
+          <div class="table-scroll">
+            <table><thead><tr><th>CIERRE</th><th>LADO</th><th>RETORNO PRECIO</th><th>RESULTADO WALLET</th><th>ESTADO FINAL</th></tr></thead><tbody id="positionRows"><tr><td colspan="5" class="empty-row">Todavía no hay operaciones cerradas.</td></tr></tbody></table>
+          </div>
+        </div>
+      </section>
+
+      <section class="chart-panel panel">
+        <div class="panel-heading">
+          <div><span class="eyebrow">ESTRUCTURA DEL PRECIO</span><h2>Ondas, extremos y resonancias</h2></div>
+          <div class="chart-legend"><span><i class="legend-up"></i> Subida</span><span><i class="legend-down"></i> Bajada</span><span><i class="legend-pivot"></i> Extremo detectado</span></div>
+        </div>
+        <div class="chart-wrap"><canvas id="priceChart" aria-label="Gráfico de velas de RENDERUSDT de 15 minutos"></canvas><div id="chartEmpty" class="chart-empty">Esperando las primeras velas…</div></div>
+        <div class="chart-bottom"><span id="chartSource">Fuente Spot · velas de 15 minutos</span><span id="lastUpdate">Última lectura: —</span></div>
+      </section>
+
+      <section class="lower-grid">
+        <div class="panel prime-panel">
+          <div class="panel-heading compact-heading"><div><span class="eyebrow">MOTOR DE TIEMPO</span><h2>Resonancia prima</h2></div><span class="tiny-code">15M × P(n)</span></div>
+          <p class="panel-description">Cada tramo entre un máximo y un mínimo se mide en velas. El motor compara su duración con números primos y revisa si distintas escalas coinciden cerca del mismo extremo.</p>
+          <div class="prime-columns">
+            <div class="prime-box"><span class="eyebrow">TRAMO HACIA POSIBLE PISO</span><div class="prime-number" id="longPrime">—</div><div class="prime-caption" id="longPrimeCaption">Esperando un último máximo confirmado</div></div>
+            <div class="prime-box"><span class="eyebrow">TRAMO HACIA POSIBLE TECHO</span><div class="prime-number" id="shortPrime">—</div><div class="prime-caption" id="shortPrimeCaption">Esperando un último mínimo confirmado</div></div>
+          </div>
+          <div class="scale-line"><span>ESCALAS OBSERVADAS</span><div id="primeScales" class="scale-chips"><i>7</i><i>11</i><i>13</i><i>17</i><i>19</i><i>23</i><i>29</i><i>31</i><i>37</i><i>41</i><i>…</i></div></div>
+          <div class="prime-note"><b>Importante:</b> el primo es una referencia para medir el tiempo, no una predicción por sí mismo. Su peso depende de que el precio también muestre agotamiento o giro.</div>
+        </div>
+
+        <div class="panel learning-panel">
+          <div class="panel-heading compact-heading"><div><span class="eyebrow">MEMORIA Y VALIDACIÓN</span><h2>¿Está aprendiendo?</h2></div><span class="learning-indicator"><i></i> WALK-FORWARD</span></div>
+          <div class="learning-stats">
+            <div><strong id="learningWin">—</strong><span>Acierto direccional</span></div>
+            <div><strong id="learningSamples">0</strong><span>Casos evaluados</span></div>
+            <div><strong id="learningAvg">—</strong><span>Retorno medio</span></div>
+          </div>
+          <div class="learning-copy" id="learningCopy">Las señales se contrastan con el movimiento real posterior. El umbral solo se adapta cuando existe una muestra suficiente.</div>
+          <div class="adaptive-summary" id="adaptiveSummary">El aprendizaje adaptativo espera resultados futuros ya cerrados; los ajustes permanecen dentro de límites seguros.</div>
+          <div class="backtest-line"><span>Backtest histórico · horizonte 1 hora</span><strong id="backtestSummary">Aún sin muestra</strong></div>
+          <div class="learning-caveat">Resultados históricos no garantizan resultados futuros. Retornos sin comisiones, deslizamiento ni simulación de ejecución.</div>
+        </div>
+      </section>
+
+      <section class="panel wave-dimensions-panel">
+        <div class="panel-heading compact-heading">
+          <div><span class="eyebrow">LECTURA MULTIDIMENSIONAL</span><h2>Huella tridimensional de la onda</h2></div>
+          <span class="tiny-code">TIEMPO · AMPLITUD · COMPORTAMIENTO</span>
+        </div>
+        <p class="panel-description">Tres análisis independientes describen la misma estructura: cuándo se mueve, cuánto se desplaza y a qué comportamientos históricos se parece. Las coincidencias primas son referencias exploratorias, no leyes del mercado.</p>
+        <div class="dimension-grid">
+          <article class="dimension-card" id="temporalCard">
+            <span class="dimension-index">DIMENSIÓN 01</span><h3>Resonancia temporal</h3>
+            <strong class="dimension-phase" id="temporalPhase">Reuniendo datos…</strong>
+            <div class="dimension-metrics" id="temporalMetrics">—</div>
+            <p id="temporalExplanation">Se comparan duraciones de ondas y ventanas primas de 15 minutos.</p>
+            <div class="dimension-chips" id="temporalChips"></div>
+          </article>
+          <article class="dimension-card" id="amplitudeCard">
+            <span class="dimension-index">DIMENSIÓN 02</span><h3>Amplitud y proporciones</h3>
+            <strong class="dimension-phase" id="amplitudePhase">Reuniendo datos…</strong>
+            <div class="dimension-metrics" id="amplitudeMetrics">—</div>
+            <p id="amplitudeExplanation">Se miden los desplazamientos porcentuales, su velocidad y sus retrocesos.</p>
+            <div class="dimension-chips" id="amplitudeChips"></div>
+          </article>
+          <article class="dimension-card" id="behaviorCard">
+            <span class="dimension-index">DIMENSIÓN 03</span><h3>Huella de comportamiento</h3>
+            <strong class="dimension-phase" id="behaviorPhase">Reuniendo datos…</strong>
+            <div class="dimension-metrics" id="behaviorMetrics">—</div>
+            <p id="behaviorExplanation">Compara la huella actual de 13 velas con patrones antiguos y sus resultados posteriores.</p>
+            <div class="dimension-horizons" id="behaviorHorizons"></div>
+          </article>
+        </div>
+        <div class="dimension-synthesis" id="dimensionSynthesis">Esperando coincidencias entre las tres dimensiones.</div>
+        <section class="elliott-board" aria-labelledby="elliottTitle">
+          <div class="elliott-board-heading">
+            <div><span class="eyebrow">CUARTA CAPA · CONTEO ESTRUCTURAL</span><h3 id="elliottTitle">Conteo Elliott multigrado</h3></div>
+            <span class="tiny-code">5 · 3 · 5 / ABC · MULTI-TF</span>
+          </div>
+          <p class="panel-description">El motor cuenta swings confirmados con un ZigZag ajustado por ATR en 1m, 15m, 1h y 4h. Las reglas duras invalidan impulsos; Fibonacci y alternancia solo orientan. Los conteos pueden ser provisionales o ambiguos.</p>
+          <div class="elliott-degree-grid">
+            <article class="elliott-degree-card" id="elliott1m"><span class="dimension-index">MICRO · 1 MIN</span><div class="elliott-degree-content">Esperando datos…</div></article>
+            <article class="elliott-degree-card" id="elliott15m"><span class="dimension-index">OPERATIVO · 15 MIN</span><div class="elliott-degree-content">Esperando datos…</div></article>
+            <article class="elliott-degree-card" id="elliott1h"><span class="dimension-index">INTERMEDIO · 1 HORA</span><div class="elliott-degree-content">Esperando datos…</div></article>
+            <article class="elliott-degree-card" id="elliott4h"><span class="dimension-index">CONTEXTO · 4 HORAS</span><div class="elliott-degree-content">Esperando datos…</div></article>
+          </div>
+          <div class="elliott-hybrid" id="elliottHybrid">Esperando la comparación entre el conteo Elliott y las duraciones primas.</div>
+          <div class="elliott-caveat" id="elliottCaveat">Los pivotes solo se confirman después de una reversión suficiente. Los subgrados clásicos no se afirman cuando no pueden verificarse.</div>
+        </section>
+        <div class="wick-diagnostics">
+          <div class="wick-heading"><div><span class="eyebrow">VALIDACIÓN DE EXTREMOS</span><h3>¿Es realmente una mecha en un mínimo o máximo?</h3></div><strong id="wickOverall">—</strong></div>
+          <div class="wick-grid">
+            <div class="wick-side"><span class="wick-side-title side-long">MECHA INFERIOR · POSIBLE PISO</span><strong id="wickLowerClass">—</strong><div id="wickLowerMetrics">—</div><div class="dimension-chips" id="wickLowerScales"></div><ul id="wickLowerReasons"></ul><div class="wick-blockers" id="wickLowerBlockers"></div></div>
+            <div class="wick-side"><span class="wick-side-title side-short">MECHA SUPERIOR · POSIBLE TECHO</span><strong id="wickUpperClass">—</strong><div id="wickUpperMetrics">—</div><div class="dimension-chips" id="wickUpperScales"></div><ul id="wickUpperReasons"></ul><div class="wick-blockers" id="wickUpperBlockers"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel pivots-panel">
+        <div class="panel-heading compact-heading"><div><span class="eyebrow">MAPA DE EXTREMOS CONFIRMADOS</span><h2>Últimos máximos y mínimos</h2></div><span class="tiny-code">SWING MEMORY</span></div>
+        <div class="table-scroll">
+          <table><thead><tr><th>TIPO</th><th>PRECIO</th><th>HORA LOCAL</th><th>DURACIÓN DEL TRAMO</th><th>PRIMO MÁS CERCANO</th></tr></thead><tbody id="pivotRows"><tr><td colspan="5" class="empty-row">Aún no se han confirmado extremos.</td></tr></tbody></table>
+        </div>
+      </section>
+
+      <section class="panel history-panel">
+        <div class="panel-heading compact-heading"><div><span class="eyebrow">REGISTRO</span><h2>Alertas y resultado posterior</h2></div><span class="tiny-code">SIGNAL JOURNAL</span></div>
+        <div class="table-scroll">
+          <table><thead><tr><th>FECHA / HORA</th><th>SEÑAL</th><th>ENTRADA</th><th>PUNTAJE</th><th>PRIMO</th><th>RETORNO A 1 H</th></tr></thead><tbody id="signalRows"><tr><td colspan="6" class="empty-row">Todavía no se han emitido alertas confirmadas.</td></tr></tbody></table>
+        </div>
+      </section>
+
+      <footer class="footer"><span>PRIMA-15 <b>·</b> Adaptive Wave Lab v4.5.0</span><span id="dataSource">Fuente: Binance Spot REST · solo lectura</span><span>Solo posiciones simuladas · sin acceso a fondos</span></footer>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+services:
+  - type: web
+    name: render-prime-wave
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements-render.txt
+    startCommand: gunicorn app:app --workers 1 --threads 4 --timeout 120
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: SYMBOL
+        value: RENDERUSDT
+      - key: HISTORY_CANDLES
+        value: "5000"
+      - key: MARKET_PROVIDER
+        value: auto
+      - key: POLL_SECONDS
+        value: "8"
+
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: OPENROUTER_MODELS
+        value: "perplexity/pplx-decider-flash-v1.3:free,nvidia/nemotron-3.5-lightning:free"
+      - key: OPENROUTER_FALLBACK_MODELS
+        value: "baidu/ernie-5.5-flash-preview:free,perplexity/pplx-decider-v1.3:free,nvidia/nemotron-3-ultra-550b-a55b:free,nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free,recursive/flint-v1.0:free,nvidia/nemotron-3.5-super-vl:free,particle-ai/particle-1:free,liquid/lfm-3-1.7b:free"
+      - key: OPENROUTER_INTERVAL_SECONDS
+        value: "300"
+      - key: OPENROUTER_MAX_COMMITTEES_PER_DAY
+        value: "20"
+      - key: FAST_ENTRY_ENFORCE_GATE
+        value: "false"
+      - key: OPENROUTER_MAX_TOKENS
+        value: "2400"
+      - key: LLM_REQUIRE_EVIDENCE_COVERAGE
+        value: "true"
+      - key: AI_MIN_CONFIDENCE
+        value: "30"
+      - key: SIM_OPEN_FEE_PCT
+        value: "0.035"
+      - key: SIM_POSITION_SIZE_PCT
+        value: "100"
+      - key: SIM_TAKE_PROFIT_PCT
+        value: "0.20"
+      - key: ADAPTIVE_TP_MIN_PCT
+        value: "0.20"
+      - key: ADAPTIVE_TP_MAX_PCT
+        value: "0.30"
+      - key: ADAPTIVE_MIN_SAMPLES
+        value: "30"
+      - key: ADAPTIVE_LOOKBACK
+        value: "120"
