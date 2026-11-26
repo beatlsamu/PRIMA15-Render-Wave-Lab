@@ -14,7 +14,7 @@ from typing import Any
 INITIAL_WALLET_PCT = 100.0
 OPEN_FEE_RATE_PCT = 0.035
 POSITION_SIZE_PCT = 100.0
-TAKE_PROFIT_PCT = 0.20
+TAKE_PROFIT_PCT = 0.14
 
 
 def init_portfolio_db(conn: sqlite3.Connection) -> None:
