@@ -60,4 +60,4 @@ AI_REQUIRED_FOR_SIGNALS = os.getenv("AI_REQUIRED_FOR_SIGNALS", "true").strip().l
 # Simulated wallet accounting is percentage-indexed (100.0 = starting balance).
 SIM_OPEN_FEE_PCT = max(0.0, min(1.0, float(os.getenv("SIM_OPEN_FEE_PCT", "0.035"))))
 SIM_POSITION_SIZE_PCT = max(1.0, min(100.0, float(os.getenv("SIM_POSITION_SIZE_PCT", "100"))))
-SIM_TAKE_PROFIT_PCT = max(0.05, min(5.0, float(os.getenv("SIM_TAKE_PROFIT_PCT", "0.20"))))
+SIM_TAKE_PROFIT_PCT = max(0.05, min(5.0, float(os.getenv("SIM_TAKE_PROFIT_PCT", "0.14"))))
