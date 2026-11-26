@@ -40,9 +40,9 @@ services:
       - key: SIM_POSITION_SIZE_PCT
         value: "100"
       - key: SIM_TAKE_PROFIT_PCT
-        value: "0.20"
+        value: "0.14"
       - key: ADAPTIVE_TP_MIN_PCT
-        value: "0.20"
+        value: "0.14"
       - key: ADAPTIVE_TP_MAX_PCT
         value: "0.30"
       - key: ADAPTIVE_MIN_SAMPLES
